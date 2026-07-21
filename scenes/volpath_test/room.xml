@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<scene version="0.5.0">
+	<integrator type="volpath">
+		<integer name="maxDepth" value="-1"/>
+		<integer name="version" value="6"/>
+	</integrator>
+
+	<!-- <medium type="homogeneous" id="medium">
+		<rgb name="sigmaA" value="0.5 0.5 0.5"/>
+		<rgb name="sigmaS" value="0.5 0.5 0.5"/>
+		<float name="scale" value="0.0005"/>
+	</medium> -->
+
+	<medium type="homogeneous" id="medium">
+		<rgb name="sigmaA" value="0.5 0.5 0.5"/> <!-- Increase absorption -->
+		<rgb name="sigmaS" value="1.0 1.0 1.0"/> <!-- Increase scattering -->
+		<float name="scale" value="0.0005"/> <!-- Increase scale for stronger effect -->
+	</medium>
+
+	<sensor type="perspective">
+		<string name="fovAxis" value="smaller"/>
+		<float name="nearClip" value="10"/>
+		<float name="farClip" value="2800"/>
+		<float name="focusDistance" value="1000"/>
+		<transform name="toWorld">
+			<lookAt origin="278, 273, -800" target="278, 273, -799" up="0, 1, 0"/>
+		</transform>
+		<float name="fov" value="39.3077"/>
+
+		<sampler type="independent">
+			<integer name="sampleCount" value="2048"/>
+		</sampler>
+
+		<film type="hdrfilm">
+			<integer name="width" value="2048"/>
+			<integer name="height" value="2048"/>
+
+			<rfilter type="gaussian"/>
+		</film>
+
+		<!-- <ref id="medium"/> -->
+	</sensor>
+
+
+	<bsdf type="diffuse" id="white">
+		<spectrum name="reflectance" value="400:0.343, 404:0.445, 408:0.551, 412:0.624, 416:0.665, 420:0.687, 424:0.708, 428:0.723, 432:0.715, 436:0.71, 440:0.745, 444:0.758, 448:0.739, 452:0.767, 456:0.777, 460:0.765, 464:0.751, 468:0.745, 472:0.748, 476:0.729, 480:0.745, 484:0.757, 488:0.753, 492:0.75, 496:0.746, 500:0.747, 504:0.735, 508:0.732, 512:0.739, 516:0.734, 520:0.725, 524:0.721, 528:0.733, 532:0.725, 536:0.732, 540:0.743, 544:0.744, 548:0.748, 552:0.728, 556:0.716, 560:0.733, 564:0.726, 568:0.713, 572:0.74, 576:0.754, 580:0.764, 584:0.752, 588:0.736, 592:0.734, 596:0.741, 600:0.74, 604:0.732, 608:0.745, 612:0.755, 616:0.751, 620:0.744, 624:0.731, 628:0.733, 632:0.744, 636:0.731, 640:0.712, 644:0.708, 648:0.729, 652:0.73, 656:0.727, 660:0.707, 664:0.703, 668:0.729, 672:0.75, 676:0.76, 680:0.751, 684:0.739, 688:0.724, 692:0.73, 696:0.74, 700:0.737"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="brown1">
+		<rgb name="reflectance" value="0.8 0.32 0.0745"/>
+	</bsdf>
+
+
+	<bsdf type="diffuse" id="brown2">
+		<rgb name="reflectance" value="0.75 0.3 0.0745"/>
+	</bsdf>
+	<!-- rgb(139,69,19) -->
+
+
+	<bsdf type="diffuse" id="light">
+		<spectrum name="reflectance" value="400:0.78, 500:0.78, 600:0.78, 700:0.78"/>
+	</bsdf>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/cbox_luminaire.obj"/>
+		<transform name="toWorld">
+			<translate x="-100" y="500" z="0"/>
+			<rotate z="1" angle="60"/>
+		</transform>
+
+		<ref id="light"/>
+
+		<emitter type="area">
+			<spectrum name="radiance" value="400:5000, 500:5000, 600:2400, 700:2000"/>
+		</emitter>
+
+		<ref name="exterior" id="medium"/>
+	</shape>
+
+
+	<medium type="homogeneous" id="medium1">
+		<rgb name="sigmaA" value="1 1 1"/>
+		<rgb name="sigmaS" value="0.5 0.5 0.5"/>
+		<float name="scale" value="0.001"/>
+	</medium>
+
+	<shape type="obj">
+		<string name="filename" value="room_meshes/room.obj"/>
+
+		<ref id="white"/>
+		<transform name="toWorld">
+			<translate x="-15" y="-20" z="-100"/>
+			<scale x="1" y="1" z="2"/>
+		</transform>
+
+		<ref name="exterior" id="medium1"/>
+	</shape>
+
+
+	<shape type="obj">
+		<string name="filename" value="room_meshes/chair.obj"/>
+
+		<ref id="brown1"/>
+
+		<transform name="toWorld">
+			<scale x="2" y="2" z="2"/>
+			<rotate y="1" angle="-5"/>
+			<translate x="450" y="-20" z="900"/>
+		</transform> 
+
+		<ref name="exterior" id="medium1"/>
+	</shape>
+
+
+	<shape type="obj">
+		<string name="filename" value="room_meshes/chair.obj"/>
+
+		<ref id="brown2"/>
+
+		<transform name="toWorld">
+			<scale x="2" y="2" z="2"/>
+			<rotate y="1" angle="10"/>
+			<translate x="250" y="-20" z="900"/>
+		</transform> 
+
+		<ref name="exterior" id="medium1"/>
+	</shape>
+
+
+
+
+
+
+
+	<shape type="sphere">
+
+		<point name="center" x="200" y="200" z="300"/>
+		<float name="radius" value="500"/>
+
+		<ref name="interior" id="medium1"/>
+		
+	</shape> 
+
+
+
+</scene>
